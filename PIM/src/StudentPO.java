@@ -1,7 +1,5 @@
-
-
-import group132015.pim.gui.GUI;
-import group132015.pim.logic.Logic;
+import logic.Logic;
+import GUI.GUI;
 
 public class StudentPO {
 	private static GUI GUI;

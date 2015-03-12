@@ -1,4 +1,4 @@
-package Reminders.GUI;
+package Reminders.Reminder;
 
 public class Reminder {
 

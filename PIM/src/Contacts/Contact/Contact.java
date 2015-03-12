@@ -1,4 +1,4 @@
-package Contacts.Logic;
+package Contacts.Contact;
 
 public class Contact {
 

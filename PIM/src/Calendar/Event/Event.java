@@ -1,4 +1,4 @@
-package Calendar.GUI;
+package Calendar.Event;
 
 public class Event {
 

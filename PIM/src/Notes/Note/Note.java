@@ -1,4 +1,4 @@
-package Notes.GUI;
+package Notes.Note;
 
 public class Note {
 

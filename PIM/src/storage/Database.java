@@ -1,4 +1,4 @@
-package storage;
+package Storage;
 
 public class Database {
 

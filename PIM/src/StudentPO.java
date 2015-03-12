@@ -1,6 +1,3 @@
-import logic.Logic;
-import GUI.GUI;
-
 public class StudentPO {
 	private static GUI GUI;
 	private Logic logic;

@@ -52,7 +52,7 @@ public class GUI implements ActionListener {
 		
     		if (eventName.equals("CalPress")) {
 			homeFrame.setVisible(false);
-	//		CalClass objCal = new CalClass();
+			Calendar.Logic objLogicCal = new Calendar.Logic();
     	} 
     	
     		if (eventName.equals("RemPress")) {

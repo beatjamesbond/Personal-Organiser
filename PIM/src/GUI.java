@@ -50,9 +50,14 @@ public class GUI implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
     	String eventName = event.getActionCommand();
 		
-    	if (eventName.equals("CalPress") || eventName.equals("RemPress")) {
+    		if (eventName.equals("CalPress")) {
 			homeFrame.setVisible(false);
 	//		CalClass objCal = new CalClass();
+    	} 
+    	
+    		if (eventName.equals("RemPress")) {
+			homeFrame.setVisible(false);
+	//		ContClass objCont = new ContClass();
     	} 
 		
 		if (eventName.equals("ContPress")) {

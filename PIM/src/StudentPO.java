@@ -1,3 +1,6 @@
+
+import javax.swing.JFrame;
+
 public class StudentPO {
 	private static GUI GUI;
 	private Logic logic;
@@ -7,6 +10,9 @@ public class StudentPO {
 	}
 	
 	private static void inApp() {
-		GUI = new GUI(1024, 768);
+		JFrame frame = new JFrame("StudentOrganiser");
+    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		GUI = new GUI(frame);
 	}
 }

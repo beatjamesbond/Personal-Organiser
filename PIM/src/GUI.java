@@ -10,68 +10,72 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GUI implements ActionListener {
-	JFrame homeFrame;
+	JFrame frame;
     JPanel homeContentPane;
     JLabel welcomeLabel, spaceLabel1, spaceLabel2;
     JButton btnCAL, btnREM, btnCONT, btnNOTES, btnO; 
 	
-	public GUI(int width, int height) {
+	public GUI(JFrame inFrame) {
+		frame = inFrame;
+		
+		if (frame.getSize().getHeight()!=768) {
+			initialiseGUI();
+		}
+			
+    	homeContentPane = new JPanel();
+		homeContentPane.setBorder(BorderFactory.createEmptyBorder(35,15,25,15));
+		
+		addComponents();
+		
+    	frame.setContentPane(homeContentPane);
+    	frame.setVisible(true);
+	}
+	
+	public void initialiseGUI() {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				JFrame.setDefaultLookAndFeelDecorated(true);
 			}
 		});
 		
-		homeFrame = new JFrame("StudentOrganiser - Main Window");
-    	homeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		setSizeAndLocation(width, height);
-		
-    	homeContentPane = new JPanel();
-		homeContentPane.setBorder(BorderFactory.createEmptyBorder(35,15,25,15));
-		
-		addComponents();
-		
-    	homeFrame.setContentPane(homeContentPane);
-    	homeFrame.setVisible(true);
+		setSizeAndLocation(1024, 768);
 	}
 	
 	public void setSizeAndLocation(int width, int height) {
 		int x, y;
-    	homeFrame.setSize(width, height);
-		homeFrame.validate();
+    	frame.setSize(width, height);
+		frame.validate();
 		
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		x = (dim.width - 1024)/2;
 		y = (dim.height - 768)/2;
-		homeFrame.setLocation(x, y);
+		frame.setLocation(x, y);
 	}
     
 	public void actionPerformed(ActionEvent event) {
     	String eventName = event.getActionCommand();
 		
-    		if (eventName.equals("CalPress")) {
-			homeFrame.setVisible(false);
-			Calendar.Logic objLogicCal = new Calendar.Logic();
+    	if (eventName.equals("CalPress")) {
+			Calendar.Logic objLogicCal = new Calendar.Logic(frame);
     	} 
-    	
-    		if (eventName.equals("RemPress")) {
-			homeFrame.setVisible(false);
+		
+		if (eventName.equals("RemPress")) {
+			frame.setVisible(false);
 	//		ContClass objCont = new ContClass();
     	} 
 		
 		if (eventName.equals("ContPress")) {
-			homeFrame.setVisible(false);
+			frame.setVisible(false);
 	//		ContClass objCont = new ContClass();
     	} 
 		
 		if (eventName.equals("NotesPress")) {
-			homeFrame.setVisible(false);
+			frame.setVisible(false);
 	//		NotesClass objNotes = new NotesClass();
     	} 
 		
 		if (eventName.equals("Op")) {
-			homeFrame.setVisible(false);
+			frame.setVisible(false);
 	//		Options objO = new Options();
     	} 
 	}

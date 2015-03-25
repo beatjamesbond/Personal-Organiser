@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 public class GUI implements ActionListener {
 	JFrame frame;
     JPanel homeContentPane;
-    JLabel welcomeLabel, spaceLabel1, spaceLabel2;
+    JLabel welcomeLabel;
     JButton btnCAL, btnREM, btnCONT, btnNOTES, btnO; 
 	
 	public GUI(JFrame inFrame) {
@@ -26,7 +26,7 @@ public class GUI implements ActionListener {
 		}
 			
     	homeContentPane = new JPanel();
-		homeContentPane.setBorder(BorderFactory.createEmptyBorder(35,15,25,15));
+		homeContentPane.setBorder(BorderFactory.createEmptyBorder(55,435,25,435));
 		
 		addComponents();
 		
@@ -98,9 +98,6 @@ public class GUI implements ActionListener {
     	btnREM.setActionCommand("RemPress");
     	btnREM.addActionListener((ActionListener) this);
     	homeContentPane.add(btnREM);
-		 
-    	spaceLabel1 = new JLabel("                                                 ");
-    	homeContentPane.add(spaceLabel1);
 		
 		btnCONT = new JButton("Contacts");
     	btnCONT.setActionCommand("ContPress");
@@ -111,10 +108,7 @@ public class GUI implements ActionListener {
     	btnNOTES.setActionCommand("NotesPress");
     	btnNOTES.addActionListener((ActionListener) this);
     	homeContentPane.add(btnNOTES);
-		
-		spaceLabel1 = new JLabel("                                                 ");
-    	homeContentPane.add(spaceLabel1);
-		
+	
 		btnO = new JButton("Options");
     	btnO.setActionCommand("Op");
     	btnO.addActionListener((ActionListener) this);

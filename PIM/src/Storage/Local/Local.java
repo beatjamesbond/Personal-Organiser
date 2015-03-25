@@ -1,4 +1,4 @@
-package Storage.Local;
+package storage.Local;
 
 public class Local {
 

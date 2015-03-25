@@ -55,7 +55,6 @@ public class Create implements ActionListener {
 		TxtLocation = new JTextField(12);
     	NewEventPane.add(TxtLocation);
     	
-    	//String[] dayStrings = {"1", "2", "3", "4", "5","6", "7", "8", "9", "10","11", "12", "13", "14", "15","16", "17", "18", "19", "20","21", "22", "23", "24", "25","26", "27", "28", "29", "30", "31"};
     	Integer[] dayInts = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
     	CombBoxDay = new JComboBox<Integer>(dayInts);
     	CombBoxDay.addActionListener(this);
@@ -66,7 +65,6 @@ public class Create implements ActionListener {
     	CombBoxMonth.addActionListener(this);
     	NewEventPane.add(CombBoxMonth);
 		
-    	//String[] yearStrings = {"2015", "2016", "2017"};
     	Integer[] yearInts = {2015, 2016, 2017};
     	CombBoxYear = new JComboBox<Integer>(yearInts);
     	CombBoxYear.addActionListener(this);

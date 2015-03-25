@@ -1,11 +1,14 @@
 package Calendar;
 
+import javax.swing.JFrame;
+
+
 public class Logic {
-	Calendar.GUI objGUICal = new Calendar.GUI();
+	JFrame frame;
 	
 	
-	
-	public static void setText (String myText) {
-		//yes, it works.
+	public Logic (JFrame inFrame) {
+		frame = inFrame;
+		Calendar.GUI objGUICal = new Calendar.GUI(frame);
 	}
 }

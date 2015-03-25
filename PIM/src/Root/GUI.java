@@ -63,8 +63,7 @@ public class GUI implements ActionListener {
     	} 
 		
 		if (eventName.equals("RemPress")) {
-			frame.setVisible(false);
-	//		ContClass objCont = new ContClass();
+			Reminders.Logic objLogicRem = new Reminders.Logic(frame);
     	} 
 		
 		if (eventName.equals("ContPress")) {

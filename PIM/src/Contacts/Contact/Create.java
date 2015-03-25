@@ -21,11 +21,7 @@ public class Create implements ActionListener {
 	private List<String> contactDetails;
 	private JTextField nameEntry, numberEntry, emailEntry, addressEntry, groupEntry;
 	private JButton confirmEntries;
-	
-	
-	public static void main(String[] args){
-		Create create = new Create();
-	}
+
 	public Create() {
 		createFrame = new JFrame();
 		createPanel = new JPanel();

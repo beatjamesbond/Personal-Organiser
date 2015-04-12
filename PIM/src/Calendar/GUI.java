@@ -10,9 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
 
 public class GUI implements ActionListener {
 	JFrame frame;
@@ -66,7 +64,6 @@ public class GUI implements ActionListener {
 	}
 
 	public void addCalComponents() {	
-		
 		JButton backMonthBtn = new JButton("<<");
 		backMonthBtn.setActionCommand("BackMonthPress");
 		backMonthBtn.addActionListener((ActionListener) this);
@@ -127,18 +124,11 @@ public class GUI implements ActionListener {
 		Date event = new Date();	//First of the month
 		
 		
-		
-		
-		
-		
-		
 		//add empty lines to fill up boxes until day 1 of month corresponds with correct column.
 		event.setYear(selectedYear-1900);
 		event.setMonth(selectedMonth-1);
 		event.setDate(1);
-		
-		System.out.println(event.getDay());
-		
+
 		JLabel spaceLbl1 = new JLabel("");
 		JLabel spaceLbl2 = new JLabel("");
 		JLabel spaceLbl3 = new JLabel("");
@@ -154,10 +144,7 @@ public class GUI implements ActionListener {
 			case 2:	MonthPane.add(spaceLbl6);
 		}
 		
-		
-		
-		
-		//Use database entries to populate correct 'Jlists'.
+		//Use database entries to populate buttons.
 		
 		p1 = new JPanel();
 		//p1.setPreferredSize(new Dimension(112, 85));

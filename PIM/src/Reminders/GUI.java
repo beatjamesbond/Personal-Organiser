@@ -4,74 +4,117 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.*;
 
 public class GUI extends JFrame implements ActionListener {
 
-	JButton newReminderButton = new JButton("New Reminder");
-	JButton editReminderButton = new JButton ("Edit Reminder");
-	JButton deleteReminderButton = new JButton ("Delete Reminder");
-	JFrame reminderFrame = new JFrame();
-	
-	
-	public GUI(){
-		
+	JPanel panel = new JPanel();
+	private JButton addReminderBtn;
+	private JButton editReminderBtn;
+	private JButton deleteReminderBtn;
+	private JButton backBtn;
+	private JList reminderList;
+	private String[] exampleList = new String[10];
+	private JTextArea reminderPreviewArea;
 
+	Container canvas = getContentPane();
+
+	public GUI() {
+		windowInit();
+		actionButtons();
+		reminderList();
+		reminderPreview();
+		setVisible(true);
 		
-		this.setTitle("Reminders");
-		
-		Container canvas = getContentPane();
-		canvas.setLayout(new GridLayout(9,9));
-		canvas.add(newReminderButton);
-		canvas.add(editReminderButton);
-		canvas.add(deleteReminderButton);
-		
-		newReminderButton.addActionListener(this);
-		editReminderButton.addActionListener(this);
-		deleteReminderButton.addActionListener(this);
-		this.setSize(1024, 768);
-		centerFrame();
-		this.show();
-		
+		reminderList.addListSelectionListener(new ListSelectionListener() {
+			  public void valueChanged(ListSelectionEvent evt) {
+			    if (!evt.getValueIsAdjusting()) {
+			    	int selectedIndex = reminderList.getSelectedIndex();
+		            //refresh the content based on the index
+		            setContent(selectedIndex);
+			    }
+			  }
+			});
 	}
 	
-	 public void centerFrame() {
-
-         Dimension windowSize = getSize();
-         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-         Point centerPoint = ge.getCenterPoint();
-
-         int dx = centerPoint.x - windowSize.width / 2;
-         int dy = centerPoint.y - windowSize.height / 2;    
-         setLocation(dx, dy);
- }
-	
-	
+	private void setContent(int contentID){
+		if(contentID == 0){
+			reminderPreviewArea.setText("This is reminder one.");
+		}
+		else if(contentID == 1){
+			reminderPreviewArea.setText("This is reminder two.");
+		}
+	}
 
 	
-	public static void Main (String[] args){
-		GUI reminderGUI = new GUI();
-		reminderGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+	private void reminderPreview() {
+		canvas.setLayout(null);
+		reminderPreviewArea = new JTextArea();
+		reminderPreviewArea.setBounds(600, 50, 300, 650);
+		reminderPreviewArea.setEditable(false);
+		canvas.add(reminderPreviewArea);
 		
+
+	}
+
+	private void reminderList() {
+		canvas.setLayout(null);
+
+		exampleList[0] = "One";
+		exampleList[1] = "Two";
+		exampleList[2] = "Three";
+		exampleList[3] = "Four";
+		reminderList = new JList(exampleList); // data has type Object[]
+		reminderList
+				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		reminderList.setBounds(350, 50,200,650);
+		canvas.add(reminderList);
+	}
+
+	private void actionButtons() {
+		canvas.setLayout(null);
+		addReminderBtn = new JButton("Add Reminder");
+		addReminderBtn.setBounds(70, 50, 250, 150);
+		canvas.add(addReminderBtn);
+		addReminderBtn.addActionListener(this);
+
+		editReminderBtn = new JButton("Edit Reminder");
+		editReminderBtn.setBounds(70, 300, 250, 150);
+		canvas.add(editReminderBtn);
+
+		deleteReminderBtn = new JButton("Delete Reminder");
+		deleteReminderBtn.setBounds(70, 550, 250, 150);
+		canvas.add(deleteReminderBtn);
+		
+		backBtn = new JButton("Back");
+		backBtn.setBounds(924, 0, 100, 50);
+		canvas.add(backBtn);
+		backBtn.addActionListener(this);
+	}
+
+	private void windowInit() {
+		super.setTitle("Reminders");
+		setSize(1024, 768);
+		setResizable(false);
+		setLocationRelativeTo(null);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == newReminderButton){
-			JOptionPane.showMessageDialog(reminderFrame, "New");
+		if (e.getSource() == addReminderBtn) {
+			AddReminderGUI addReminder = new AddReminderGUI();
+			setVisible(false);
+		}else if(e.getSource() == backBtn){
+			setVisible(false);
 		}
-		else if (e.getSource() == editReminderButton){
-			JOptionPane.showMessageDialog(reminderFrame, "Edit");
-		}
-		else if (e.getSource() == deleteReminderButton){
-			JOptionPane.showMessageDialog(reminderFrame, "Delete");
-		}
-		
 	}
 
-	
+	public static void Main(String[] args) {
+		GUI reminderGUI = new GUI();
+
+	}
+
 }
-	
-
-
-

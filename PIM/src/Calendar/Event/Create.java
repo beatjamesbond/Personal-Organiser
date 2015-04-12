@@ -180,10 +180,6 @@ public class Create implements ActionListener {
 		event.setMonth(month-1);
 		event.setDate(day);
 		
-		System.out.println(today.getDate()+", "+today.getMonth()+", "+today.getYear());
-		System.out.println(event.getDate()+", "+event.getMonth()+", "+event.getYear());
-		System.out.println();
-		
 		// Check that title exists.
 		if (title.equals("")) {
 			ErrorDialog.showMessageDialog(DlgFrame,"Event title was left empty...\n\nAn event must have a title!", "Invalid Title", JOptionPane.ERROR_MESSAGE);

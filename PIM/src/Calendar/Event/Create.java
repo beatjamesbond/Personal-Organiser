@@ -20,9 +20,9 @@ public class Create implements ActionListener {
 	JFrame frame, DlgFrame;
 	JPanel NewEventPane;
     JTextField TxtTitle, TxtLocation;
-    JLabel lblTitle, lblLocation;
+    JLabel lblTitle, lblLocation, lblStrtTime, lblEndTime;
     JButton btnSubmitNewEvent, btnCancelEvent;
-    JComboBox<Integer> CombBoxDay, CombBoxYear;
+    JComboBox<Integer> CombBoxDay, CombBoxYear, CombBoxHourStrt, CombBoxHourEnd, CombBoxMinStrt, CombBoxMinEnd;
 	JComboBox<String> CombBoxMonth;
 	JOptionPane ErrorDialog;
     
@@ -41,7 +41,7 @@ public class Create implements ActionListener {
 	public void addNewEventComponents() {
 		lblTitle = new JLabel("Title:     ");
 		lblTitle.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		lblTitle.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
+		lblTitle.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		NewEventPane.add(lblTitle);
 		
 		TxtTitle = new JTextField(12);
@@ -49,7 +49,7 @@ public class Create implements ActionListener {
     	
 		lblLocation = new JLabel("Location:     ");
 		lblLocation.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		lblLocation.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
+		lblLocation.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		NewEventPane.add(lblLocation);
 		
 		TxtLocation = new JTextField(12);
@@ -58,17 +58,52 @@ public class Create implements ActionListener {
     	Integer[] dayInts = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
     	CombBoxDay = new JComboBox<Integer>(dayInts);
     	CombBoxDay.addActionListener(this);
+    	CombBoxDay.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
     	NewEventPane.add(CombBoxDay);
     	
     	String[] monthStrings = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
     	CombBoxMonth = new JComboBox<String>(monthStrings);
     	CombBoxMonth.addActionListener(this);
+    	CombBoxMonth.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
     	NewEventPane.add(CombBoxMonth);
 		
     	Integer[] yearInts = {2015, 2016, 2017};
     	CombBoxYear = new JComboBox<Integer>(yearInts);
     	CombBoxYear.addActionListener(this);
+    	CombBoxYear.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
     	NewEventPane.add(CombBoxYear);
+    	
+		lblStrtTime = new JLabel("Start Time:     ");
+		lblStrtTime.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+		lblStrtTime.setBorder(BorderFactory.createEmptyBorder(10,10,20,10));
+		NewEventPane.add(lblStrtTime);
+		
+    	Integer[] HourInts = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23};
+    	CombBoxHourStrt = new JComboBox<Integer>(HourInts);
+    	CombBoxHourStrt.addActionListener(this);
+    	CombBoxHourStrt.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
+    	NewEventPane.add(CombBoxHourStrt);
+    	
+    	Integer[] MinInts = {0,5,10,15,20,25,30,35,40,45,50,55};
+    	CombBoxMinStrt = new JComboBox<Integer>(MinInts);
+    	CombBoxMinStrt.addActionListener(this);
+    	CombBoxMinStrt.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
+    	NewEventPane.add(CombBoxMinStrt);
+		
+		lblEndTime = new JLabel("End Time:     ");
+		lblEndTime.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+		lblEndTime.setBorder(BorderFactory.createEmptyBorder(10,10,20,10));
+		NewEventPane.add(lblEndTime);
+		
+    	CombBoxHourEnd = new JComboBox<Integer>(HourInts);
+    	CombBoxHourEnd.addActionListener(this);
+    	CombBoxHourEnd.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
+    	NewEventPane.add(CombBoxHourEnd);
+    	
+    	CombBoxMinEnd = new JComboBox<Integer>(MinInts);
+    	CombBoxMinEnd.addActionListener(this);
+    	CombBoxMinEnd.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
+    	NewEventPane.add(CombBoxMinEnd);
     	
     	btnCancelEvent = new JButton("Cancel");
     	btnCancelEvent.setActionCommand("CancelEventPress");

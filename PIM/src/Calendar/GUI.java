@@ -13,7 +13,7 @@ public class GUI implements ActionListener {
 	JFrame frame;
     JPanel CalContentPane;
     static JLabel lblWelcome;
-    JButton newEventBtn, backBtn;
+    JButton newEventBtn, editEventBtn, backBtn;
 	
 	public GUI(JFrame inFrame) {
 		frame = inFrame;
@@ -31,6 +31,11 @@ public class GUI implements ActionListener {
 		lblWelcome.setBorder(BorderFactory.createEmptyBorder(5,400,20,400));
 		CalContentPane.add(lblWelcome);
 		
+		editEventBtn = new JButton("Edit Event");
+		editEventBtn.setActionCommand("EditEventPress");
+		editEventBtn.addActionListener((ActionListener) this);
+    	CalContentPane.add(editEventBtn);
+    	
 		newEventBtn = new JButton("Add New Event");
     	newEventBtn.setActionCommand("NewEventPress");
     	newEventBtn.addActionListener((ActionListener) this);
@@ -46,12 +51,16 @@ public class GUI implements ActionListener {
     	String eventName = event.getActionCommand();
 		
     	if (eventName.equals("NewEventPress")) {
-    		Calendar.Event.Create newEventObj = new Calendar.Event.Create(frame);	//logic made to happen here?
+    		Calendar.Event.Create newEventObj = new Calendar.Event.Create(frame);
+    	} 
+    	
+    	if (eventName.equals("EditEventPress")) {
+    		Calendar.Event.Edit editEventObj = new Calendar.Event.Edit(frame);
     	} 
     	
     	if (eventName.equals("backPress")) {
-    		GUI newGUIObj = new GUI(frame);			//CANNOT DECLARE OBJECT FOR CLASS OUTSIDE CURRENT PACKAGE (WHATS THE SYNTAX FOR 'ROOT' PACKAGE?)
-    		//StudentPO newObj = new StudentPO();
+    		Root.GUI newGUIObj = new Root.GUI(frame);
+    		
     	} 
 	}
 	

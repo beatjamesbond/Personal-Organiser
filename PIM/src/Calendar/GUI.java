@@ -353,7 +353,6 @@ public class GUI implements ActionListener {
 		
 	}
 	
-	
 	public void actionPerformed(ActionEvent event) {
     	String eventName = event.getActionCommand();
 		
@@ -372,9 +371,10 @@ public class GUI implements ActionListener {
     	
     	if (eventName.equals("BackMonthPress")) {
     		if (selectedMonth == 1) {
-    			selectedMonth = 12;
-    			selectedYear = selectedYear -1;
-    			//ADD SOMETHING TO MAKE SURE THEY DONT GO OUT OF YEAR-BOUNDS
+    			if (selectedYear!=2015) {
+    				selectedMonth = 12;
+    				selectedYear = selectedYear -1;
+    			}
     		} else {
     			selectedMonth = selectedMonth-1;
     		}
@@ -386,9 +386,10 @@ public class GUI implements ActionListener {
     	
     	if (eventName.equals("ForwardMonthPress")) {
     		if (selectedMonth == 12) {
-    			selectedMonth = 1;
-    			selectedYear = selectedYear +1;
-    			//ADD SOMETHING TO MAKE SURE THEY DONT GO OUT OF YEAR-BOUNDS
+    			if (selectedYear!=2017) {
+    				selectedMonth = 1;
+    				selectedYear = selectedYear +1;
+    			}
     		} else {
     			selectedMonth = selectedMonth+1;
     		}
@@ -397,9 +398,12 @@ public class GUI implements ActionListener {
     		addCalComponents();
     		frame.setContentPane(ContentPane);
     	} 
+    	
+    	if (eventName.equals("1aPress")) {
+    		Calendar.Event.Event showEventObj = new Calendar.Event.Event(frame);
+    	}
 	}
-	
-	
+		
 	public static void showNewEvent(String str) {
 		lblWelcome.setText(str);
 	}

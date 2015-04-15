@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,7 +17,11 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.text.DateFormatter;
 
-public class AddReminderGUI extends JFrame implements ActionListener {
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
+public class AddReminderGUI extends JFrame  implements ActionListener {
 	
 	private JLabel nameOfReminderLbl;
 	private JLabel timeOfReminderLbl;
@@ -34,6 +39,7 @@ public class AddReminderGUI extends JFrame implements ActionListener {
 	private JButton saveReminderBtn;
 	private JButton cancelReminderBtn;
 	private String[] freqOfReminderList = { "Every 10 Mintues", "Every Hour", "Every 12 Hours", "Every Day", "Every Week" };
+	JDatePickerImpl datePicker;
 	
 	Container canvas = getContentPane();
 
@@ -83,18 +89,8 @@ public class AddReminderGUI extends JFrame implements ActionListener {
 		timeOfReminderLbl = new JLabel("Time:");
 		Dimension D = timeOfReminderLbl.getPreferredSize();
 		timeOfReminderLbl.setBounds(50, 100, D.width, D.height);
-		canvas.add(timeOfReminderLbl);
-		
-	}
+		canvas.add(timeOfReminderLbl);		
 
-
-	private void dateInit() {
-		canvas.setLayout(null);
-		dateOfReminderLbl = new JLabel("Date:");
-		Dimension D = dateOfReminderLbl.getPreferredSize();
-		dateOfReminderLbl.setBounds(50, 175, D.width, D.height);
-		canvas.add(dateOfReminderLbl);
-		
 		Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 24); // 24 == 12 PM == 00:00:00
         calendar.set(Calendar.MINUTE, 0);
@@ -111,8 +107,32 @@ public class AddReminderGUI extends JFrame implements ActionListener {
         formatter.setOverwriteMode(true);
 
         spinner.setEditor(editor);
-        spinner.setBounds(100,175,75,20);
+        spinner.setBounds(100,100,75,20);
         canvas.add(spinner);
+		
+	}
+
+
+	private void dateInit() {
+		canvas.setLayout(null);
+		dateOfReminderLbl = new JLabel("Date:");
+		Dimension D = dateOfReminderLbl.getPreferredSize();
+		dateOfReminderLbl.setBounds(50, 175, D.width, D.height);
+		canvas.add(dateOfReminderLbl);
+		
+		UtilDateModel model = new UtilDateModel();
+		//model.setDate(20,04,2014);
+		// Need this...
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		// Don't know about the formatter, but there it is...
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, null);
+		datePicker.setBounds(100,175,150,50);
+		canvas.add(datePicker);
+		
 	}
 
 

@@ -14,6 +14,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 
 public class Edit implements ActionListener {
@@ -25,17 +30,18 @@ public class Edit implements ActionListener {
     JComboBox<Integer> CombBoxDay, CombBoxYear, CombBoxHourStrt, CombBoxHourEnd, CombBoxMinStrt, CombBoxMinEnd;
 	JComboBox<String> CombBoxMonth;
 	JOptionPane ErrorDialog;
+    int thisEventID;
     
-    
-	public Edit(JFrame inFrame) {
+	public Edit(JFrame inFrame, int eventID) {
 		frame = inFrame;
 		//add new components to new frame.
 		EditEventPane = new JPanel();
 		EditEventPane.setBorder(BorderFactory.createEmptyBorder(35,385,25,385));
 		
+		thisEventID = eventID;
 		editEventComponents();
 		// POPULATE INPUT FIELDS WITH THE CURRENT EVENT DATA.
-		
+	
 		DeleteFrame = new JFrame("Delete Event");
 		setSizeAndLocation(250,124);
 		DeletePane = new JPanel();
@@ -62,12 +68,44 @@ public class Edit implements ActionListener {
 	}
 	
 	public void editEventComponents() {
+		String title="", location="";
+		int day=0, month=0, year=0, startTime=0, endTime=0;
+		
+		try (
+		         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EventListTest", "root", ""); // MySQL
+		         Statement stmt = conn.createStatement(); 
+		      ) {
+		         String strSelect = "select id, title, location, day, month, year, startTime, endTime from Events";
+		 
+		         ResultSet rset = stmt.executeQuery(strSelect);
+
+		         while(rset.next()) {   // Move the cursor to the next row
+		            if (rset.getInt("id")==thisEventID) {
+		            	title = rset.getString("title");
+		            	location = rset.getString("location");
+		            	day   = rset.getInt("day");
+		            	month = rset.getInt("month");
+		            	year = rset.getInt("year");
+		            	startTime = rset.getInt("startTime");
+		            	endTime = rset.getInt("endTime");
+		            }
+		         }
+		 
+		      } catch(SQLException ex) {
+		         ex.printStackTrace();
+		      }
+		      // Step 5: Close the resources - Done automatically by try-with-resources
+		
+		
+		
+		
 		lblTitle = new JLabel("Title:     ");
 		lblTitle.setAlignmentX(JLabel.LEFT_ALIGNMENT);
 		lblTitle.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		EditEventPane.add(lblTitle);
 		
 		TxtTitle = new JTextField(12);
+		TxtTitle.setText(title);
     	EditEventPane.add(TxtTitle);
     	
 		lblLocation = new JLabel("Location:     ");
@@ -76,22 +114,26 @@ public class Edit implements ActionListener {
 		EditEventPane.add(lblLocation);
 		
 		TxtLocation = new JTextField(12);
+		TxtLocation.setText(location);
     	EditEventPane.add(TxtLocation);
     	
     	Integer[] dayInts = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
     	CombBoxDay = new JComboBox<Integer>(dayInts);
+    	CombBoxDay.setSelectedIndex(day-1);
     	CombBoxDay.addActionListener(this);
     	CombBoxDay.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
     	EditEventPane.add(CombBoxDay);
     	
     	String[] monthStrings = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
     	CombBoxMonth = new JComboBox<String>(monthStrings);
+    	CombBoxMonth.setSelectedIndex(month-1);
     	CombBoxMonth.addActionListener(this);
     	CombBoxMonth.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
     	EditEventPane.add(CombBoxMonth);
 		
     	Integer[] yearInts = {2015, 2016, 2017};
     	CombBoxYear = new JComboBox<Integer>(yearInts);
+    	CombBoxYear.setSelectedIndex(year-2015);
     	CombBoxYear.addActionListener(this);
     	CombBoxYear.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
     	EditEventPane.add(CombBoxYear);
@@ -103,12 +145,14 @@ public class Edit implements ActionListener {
 		
     	Integer[] HourInts = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23};
     	CombBoxHourStrt = new JComboBox<Integer>(HourInts);
+    	CombBoxHourStrt.setSelectedIndex(startTime/60);
     	CombBoxHourStrt.addActionListener(this);
     	CombBoxHourStrt.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
     	EditEventPane.add(CombBoxHourStrt);
     	
     	Integer[] MinInts = {0,5,10,15,20,25,30,35,40,45,50,55};
     	CombBoxMinStrt = new JComboBox<Integer>(MinInts);
+    	CombBoxMinStrt.setSelectedIndex((startTime%60)/5);
     	CombBoxMinStrt.addActionListener(this);
     	CombBoxMinStrt.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
     	EditEventPane.add(CombBoxMinStrt);
@@ -119,11 +163,13 @@ public class Edit implements ActionListener {
 		EditEventPane.add(lblEndTime);
 		
     	CombBoxHourEnd = new JComboBox<Integer>(HourInts);
+    	CombBoxHourEnd.setSelectedIndex(endTime/60);
     	CombBoxHourEnd.addActionListener(this);
     	CombBoxHourEnd.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
     	EditEventPane.add(CombBoxHourEnd);
     	
     	CombBoxMinEnd = new JComboBox<Integer>(MinInts);
+    	CombBoxMinEnd.setSelectedIndex((endTime%60)/5);
     	CombBoxMinEnd.addActionListener(this);
     	CombBoxMinEnd.setBorder(BorderFactory.createEmptyBorder(5,10,20,10));
     	EditEventPane.add(CombBoxMinEnd);
@@ -146,7 +192,14 @@ public class Edit implements ActionListener {
 	}
 	
 	public void deleteComponents() {
-		//place confirm delete components here. 
+		JLabel lblDeleteConfirm = new JLabel("Delete this event?");
+		lblTitle.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		DeletePane.add(lblDeleteConfirm);
+		
+    	JButton btnConfirmDelete = new JButton("Confirm Delete");
+    	btnConfirmDelete.setActionCommand("ConfirmDeletePress");
+    	btnConfirmDelete.addActionListener((ActionListener) this);
+    	DeletePane.add(btnConfirmDelete);
 	}
 	
 	public void actionPerformed(ActionEvent event) {
@@ -155,11 +208,8 @@ public class Edit implements ActionListener {
     	if (eventName.equals("SubmitEventPress")) {
     		
     		if (EventIsValid()) {
-    			//Save
+    			writeToDatabase();
         		Calendar.Logic objLogicCal = new Calendar.Logic(frame);
-        		
-        		Calendar.GUI.showNewEvent("New event saved with the following values: ("+TxtTitle.getText()+"), at ("+TxtLocation.getText()+"), on ("+(Integer) CombBoxDay.getSelectedItem()+" "+(String) CombBoxMonth.getSelectedItem()+" "+(Integer) CombBoxYear.getSelectedItem()+").");
-        		//And also save data to database.
     		}
     	}
     	
@@ -170,9 +220,14 @@ public class Edit implements ActionListener {
     	if (eventName.equals("DeleteEventPress")) {
     		// display dialog to ensure user is sure.
     		DeleteFrame.setVisible(true);
-    		// then delete event from database.
+    	}
+    	
+    	if (eventName.equals("ConfirmDeletePress")) {
+    		deleteEvent();
     		Calendar.Logic objLogicCal = new Calendar.Logic(frame);
     	}
+    	
+    	
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -250,4 +305,72 @@ public class Edit implements ActionListener {
 		return(true);
 	}
 	
+	public void writeToDatabase() {
+		try (
+		         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EventListTest", "root", ""); // MySQL
+		         Statement stmt = conn.createStatement();
+		      ) {
+		 
+				String monthStr = (String) CombBoxMonth.getSelectedItem();
+				int monthNum = 0;
+				if (monthStr.equals("Jan")) {
+					monthNum = 1;
+				} else if (monthStr.equals("Feb")) {
+					monthNum = 2;
+				} else if (monthStr.equals("Mar")) {
+					monthNum = 3;
+				} else if (monthStr.equals("Apr")) {
+					monthNum = 4;
+				} else if (monthStr.equals("May")) {
+					monthNum = 5;
+				} else if (monthStr.equals("Jun")) {
+					monthNum = 6;
+				} else if (monthStr.equals("Jul")) {
+					monthNum = 7;
+				} else if (monthStr.equals("Aug")) {
+					monthNum = 8;
+				} else if (monthStr.equals("Sep")) {
+					monthNum = 9;
+				} else if (monthStr.equals("Oct")) {
+					monthNum = 10;
+				} else if (monthStr.equals("Nov")) {
+					monthNum = 11;
+				} else if (monthStr.equals("Dec")) {
+					monthNum = 12;
+				}
+				int startTime = 60*((Integer)CombBoxHourStrt.getSelectedItem())+((Integer) CombBoxMinStrt.getSelectedItem());
+				int endTime = 60*((Integer)CombBoxHourEnd.getSelectedItem())+((Integer) CombBoxMinEnd.getSelectedItem());
+				
+
+		         // Modify a database entry
+		         String strUpdate = "update events set "
+		        		+ "title = '"+ TxtTitle.getText()+"', "
+		        		+ "location = '"+ TxtLocation.getText()+"', "
+		        		+ "day = " + (Integer) CombBoxDay.getSelectedItem()+", "
+		        		+ "month = " + monthNum+", "
+		        		+ "year = " + (Integer) CombBoxYear.getSelectedItem()+", "
+		        		+ "startTime = "+ startTime+", "
+		        		+ "endTime = " + endTime
+        		 		+ " where id = " + thisEventID;
+		         int countUpdated = stmt.executeUpdate(strUpdate);
+		 
+		      } catch(SQLException ex) {
+		         ex.printStackTrace();
+		      }
+		      // Step 5: Close the resources - Done automatically by try-with-resources
+	}
+
+	public void deleteEvent() {
+		try (
+		         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EventListTest", "root", ""); // MySQL
+		         Statement stmt = conn.createStatement();
+		      ) {
+		         String sqlDelete = "delete from events where id="+thisEventID;
+		         int countDeleted = stmt.executeUpdate(sqlDelete);
+		         
+				} catch(SQLException ex) {
+		          ex.printStackTrace();
+		       }
+	}
+
 }

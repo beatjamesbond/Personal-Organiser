@@ -27,7 +27,11 @@ public class GUI extends JFrame implements ActionListener{
 	private Logic logic;
 
 	Container canvas = getContentPane();
-	
+
+	public static void main(String[] args){
+		@SuppressWarnings("unused")
+		GUI gui = new GUI();
+	}
 	public GUI() {
 		logic = new Logic();
 		windowInit();
@@ -48,7 +52,7 @@ public class GUI extends JFrame implements ActionListener{
 		canvas.setLayout(null);
 		stringList = new String[logic.getAllContacts().size()];
 		for(int i = 0; i < logic.getAllContacts().size(); i++){
-			stringList[i] = logic.getContactMap().get(logic.getAllContacts().get(i));
+			stringList[i] = logic.getAllContacts().get(i).getContactName() + " - " + logic.getAllContacts().get(i).getContactNumber();
 		}
 		contactList = new JList<Object>(stringList);
 		contactList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);

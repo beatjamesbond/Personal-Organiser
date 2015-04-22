@@ -68,7 +68,7 @@ public class GUI implements ActionListener {
 		
 		if (eventName.equals("ContPress")) {
 			frame.setVisible(false);
-	//		ContClass objCont = new ContClass();
+			Contacts.GUI contGUI = new Contacts.GUI();
     	} 
 		
 		if (eventName.equals("NotesPress")) {

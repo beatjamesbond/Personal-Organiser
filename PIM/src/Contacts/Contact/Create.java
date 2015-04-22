@@ -1,61 +1,90 @@
 package Contacts.Contact;
 
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import Contacts.Logic;
-
-public class Create implements ActionListener {
+public class Create extends JFrame implements ActionListener {
 	
-	private Logic logic;
-	private JFrame createFrame;
-	private JPanel createPanel;
-	private List<String> contactDetails;
-	private JTextField nameEntry, numberEntry, emailEntry, addressEntry, groupEntry;
-	private JButton confirmEntries;
-
+	private static final long serialVersionUID = 1L;
+	private JButton addContact;
+	private JButton back;
+	private JTextField contactName;
+	private JTextField contactNumber;
+	private JTextField contactEmail;
+	private JTextField contactAddress;
+	private JTextField contactGroup;
+	
+	Container canvas = getContentPane();
+	
 	public Create() {
-		createFrame = new JFrame();
-		createPanel = new JPanel();
-		createFrame.setSize(1024, 768);
-		createFrame.setContentPane(createPanel);
-		createPanel.setVisible(true);
-		createFrame.setVisible(true);
-		confirmEntries = new JButton("Enter");
-		nameEntry = new JTextField();
-		numberEntry = new JTextField();
-		emailEntry = new JTextField();
-		addressEntry = new JTextField();
-		groupEntry = new JTextField();
-		createPanel.add(nameEntry);
-		createPanel.add(numberEntry);
-		createPanel.add(emailEntry);
-		createPanel.add(addressEntry);
-		createPanel.add(groupEntry);
-		createPanel.add(confirmEntries);
-		confirmEntries.addActionListener(this);
+		windowInit();
+		actionButtons();
+		textFields();
+		setVisible(true);
 	}
 	
-	public void createContact() {
-		String contactName = contactDetails.get(0);
-		String contactNumber = contactDetails.get(1);
-		String contactEmail = contactDetails.get(2);
-		String contactAddress = contactDetails.get(3);
-		String contactGroup = contactDetails.get(4);
-		Contact c = new Contact(contactName, contactNumber, contactEmail, contactAddress, contactGroup);
-		logic.addContact(c);
+	
+	private void textFields() {
+		canvas.setLayout(null);
+		
+		contactName = new JTextField("Contact Name");
+		contactName.setBounds(350, 50,300,50);
+		canvas.add(contactName);
+		
+		contactNumber = new JTextField("Contact Number");
+		contactNumber.setBounds(350, 105,300,50);
+		canvas.add(contactNumber);
+
+		contactEmail = new JTextField("Contact Email");
+		contactEmail.setBounds(350, 160,300,50);
+		canvas.add(contactEmail);
+		
+		contactAddress = new JTextField("Contact Address");
+		contactAddress.setBounds(350, 215,300,50);
+		canvas.add(contactAddress);
+		
+		contactGroup = new JTextField("Contact Group");
+		contactGroup.setBounds(350, 270,300,50);
+		canvas.add(contactGroup);
 	}
+
+
+	private void actionButtons() {
+		canvas.setLayout(null);
+		addContact = new JButton("Add Contact");
+		addContact.setBounds(70, 50, 250, 150);
+		canvas.add(addContact);
+		addContact.addActionListener(this);
+		
+		back = new JButton("Back");
+		back.setBounds(924, 0, 100, 50);
+		canvas.add(back);
+		back.addActionListener(this);
+	}
+	
+	private void windowInit() {
+		super.setTitle("Add Contact");
+		setSize(1024, 768);
+		setResizable(false);
+		setLocationRelativeTo(null);
+	}
+	
+	@SuppressWarnings("unused")
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		contactDetails = new ArrayList<String>(Arrays.asList(nameEntry.getText(), numberEntry.getText(), emailEntry.getText(), addressEntry.getText(), groupEntry.getText()));
-		createContact();
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == addContact){
+			Contact c = new Contact(contactName.getText(), contactNumber.getText(), contactEmail.getText(), contactAddress.getText(), contactGroup.getText());
+			Contacts.GUI.logic.addContact(c);
+			setVisible(false);
+			Contacts.GUI gui = new Contacts.GUI();
+		}else if(e.getSource() == back){
+			setVisible(false);
+			Contacts.GUI gui = new Contacts.GUI();
+		}
 	}
 }

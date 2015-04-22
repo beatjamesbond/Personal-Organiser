@@ -2,20 +2,14 @@ package Contacts.Contact;
 
 public class Contact {
 
-	private int contactID;
 	private String contactName, contactNumber, contactEmail, contactAddress, contactGroup;
 	
 	public Contact(String contactName, String contactNumber, String contactEmail, String contactAddress, String contactGroup){
-		generateContactID();
 		this.contactName = contactName;
 		this.contactNumber = contactNumber;
 		this.contactEmail = contactEmail;
 		this.contactAddress = contactAddress;
 		this.setContactGroup(contactGroup);
-	}
-
-	private void generateContactID() {
-		contactID = 1;
 	}
 
 	public String getContactName() {
@@ -56,9 +50,5 @@ public class Contact {
 
 	public void setContactGroup(String contactGroup) {
 		this.contactGroup = contactGroup;
-	}
-
-	public int getContactID() {
-		return contactID;
 	}
 }

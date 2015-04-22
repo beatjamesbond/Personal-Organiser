@@ -21,8 +21,10 @@ public class Logic {
 	 * Gets contacts from storage and returns them as an ArrayList
 	 */
 	private ArrayList<Contact> retrieveContacts() {
-		Contact c = new Contact("aaa", null, null, null, null);
-		return new ArrayList<Contact>(Arrays.asList(c));
+		Contact c1 = new Contact("Contact 1", "1234567", "1@contact.com", "Contact 1 Address", "Contacts");
+		Contact c2 = new Contact("Contact 2", "12345678", "2@contact.com", "Contact 2 Address", "Contacts");
+		Contact c3 = new Contact("Contact 3", "123456789", "3@contact.com", "Contact 3 Address", "Contacts");
+		return new ArrayList<Contact>(Arrays.asList(c1, c2, c3));
 	}
 	
 	/**

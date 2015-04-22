@@ -28,7 +28,7 @@ public class Logic {
 	}
 	
 	/**
-	 * Synchronises the storage with allContacts
+	 * Synchronises the storage with allContacts, which will be implemented if we include a database.
 	 */
 	private void synchroniseContacts() {
 	}
@@ -47,7 +47,9 @@ public class Logic {
 		synchroniseContacts();	
 	}
 	
-	public void editContact(Contact c) {
-		
+	public void editContact(Contact c, Contact c2) {
+		allContacts.remove(c);
+		allContacts.add(c2);
+		synchroniseContacts();
 	}
 }

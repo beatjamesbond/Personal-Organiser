@@ -14,7 +14,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import Contacts.Contact.Contact;
+import Contacts.Contact.Create;
+import Contacts.Contact.Edit;
 
 public class GUI extends JFrame implements ActionListener{
 
@@ -27,17 +28,17 @@ public class GUI extends JFrame implements ActionListener{
 	private JList<Object> contactList;
 	private String[] stringList;
 	private ListSelectionListener listListener;
-	private Logic logic;
+	public static Logic logic;
 	private DefaultListModel<Object> listModel;
 
 	Container canvas = getContentPane();
 
 	public static void main(String[] args){
+		logic = new Logic();
 		@SuppressWarnings("unused")
 		GUI gui = new GUI();
 	}
 	public GUI() {
-		logic = new Logic();
 		windowInit();
 		actionButtons();
 		contactList();
@@ -97,11 +98,14 @@ public class GUI extends JFrame implements ActionListener{
 		setLocationRelativeTo(null);
 	}
 
+	@SuppressWarnings("unused")
 	public void actionPerformed(ActionEvent e){
 		if (e.getSource() == addContact) {
 			setVisible(false);
+			Create create = new Create();
 		}else if(e.getSource() == editContact && contactList.getSelectedValue().toString() != null){
 			setVisible(false);
+			Edit edit = new Edit(logic.getAllContacts().get(contactList.getSelectedIndex()));
 		}else if(e.getSource() == deleteContact && contactList.getSelectedValue().toString() != null){
 			int dialogButton = JOptionPane.YES_NO_OPTION;
 			int dialogResult = JOptionPane.showConfirmDialog(this, "Would you like to delete this contact?", "Delete Confirmation", dialogButton);
@@ -114,7 +118,6 @@ public class GUI extends JFrame implements ActionListener{
 		
 		else if(e.getSource() == back){
 			setVisible(false);
-			@SuppressWarnings("unused")
 			Root.GUI rootGUI = new Root.GUI(new JFrame());
 		}
 	}

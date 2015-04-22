@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -12,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import Contacts.Contact.Contact;
 
 public class GUI extends JFrame implements ActionListener{
 
@@ -25,6 +28,7 @@ public class GUI extends JFrame implements ActionListener{
 	private String[] stringList;
 	private ListSelectionListener listListener;
 	private Logic logic;
+	private DefaultListModel<Object> listModel;
 
 	Container canvas = getContentPane();
 
@@ -43,18 +47,21 @@ public class GUI extends JFrame implements ActionListener{
 		
 	public void valueChanged(ListSelectionEvent evt) {
 		if (!evt.getValueIsAdjusting()) {
-			contactList.removeAll();
-		    contactList();
 		    }
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void contactList() {
 		canvas.setLayout(null);
 		stringList = new String[logic.getAllContacts().size()];
 		for(int i = 0; i < logic.getAllContacts().size(); i++){
 			stringList[i] = logic.getAllContacts().get(i).getContactName() + " - " + logic.getAllContacts().get(i).getContactNumber();
 		}
-		contactList = new JList<Object>(stringList);
+		listModel=new DefaultListModel();
+		for (int i = 0; i<stringList.length; i++) {
+		  listModel.addElement(stringList[i]);
+		}
+		contactList = new JList<Object>(listModel);
 		contactList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		contactList.setBounds(350, 50,200,650);
 		canvas.add(contactList);
@@ -90,7 +97,7 @@ public class GUI extends JFrame implements ActionListener{
 		setLocationRelativeTo(null);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e){
 		if (e.getSource() == addContact) {
 			setVisible(false);
 		}else if(e.getSource() == editContact && contactList.getSelectedValue().toString() != null){
@@ -100,6 +107,7 @@ public class GUI extends JFrame implements ActionListener{
 			int dialogResult = JOptionPane.showConfirmDialog(this, "Would you like to delete this contact?", "Delete Confirmation", dialogButton);
 			if(dialogResult == JOptionPane.YES_OPTION) {
 				logic.removeContact(logic.getAllContacts().get(contactList.getSelectedIndex()));
+				listModel.remove(contactList.getSelectedIndex());
 			} else {
 			} 
 		}
